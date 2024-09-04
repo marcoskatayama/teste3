@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       python: 3.8
     commands:
-      - pip install -r requirements.txt
+      - pip install -r requirements-docker.txt
       - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 723294176677.dkr.ecr.us-east-2.amazonaws.com
   pre_build:
     commands:
