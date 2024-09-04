@@ -1,28 +1,25 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      - pip install -r requirements.txt
+	  - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 723294176677.dkr.ecr.us-east-2.amazonaws.com
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws --version
-      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 723294176677.dkr.ecr.us-east-2.amazonaws.com
-      - REPOSITORY_URI=723294176677.dkr.ecr.us-east-2.amazonaws.com/kralen-web
-      - COMMIT_HAS=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - echo Iniciando a fase de pre_build...
   build:
     commands:
-      - echo Build started on 'date'...
-      - echo Building the Docker image...
+      - echo Iniciando a fase de build...
       - docker build -t kralen-web .
       - docker tag kralen-web:latest 723294176677.dkr.ecr.us-east-2.amazonaws.com/kralen-web:latest
   post_build:
     commands:
-      - echo Build completed on `date`
-      - echo Pushing the Docker images...
+      - echo Fase de post_build concluída.
       - docker push 723294176677.dkr.ecr.us-east-2.amazonaws.com/kralen-web:latest
-      - echo Writing image definitions file...
-      - printf '[{"name":"app", "imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-      - cat image
 
 artifacts:
-  files: imagedefinitions.json
+  files:
+    - '**/*'
