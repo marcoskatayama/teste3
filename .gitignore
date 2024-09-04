@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches
+*.egg-info/
+*.eggs/
+
+# Environment variables
+.env
+.env.*
+
+# VSCode
+.vscode/
+
+# Virtual environments
+.venv/
+venv/
+
+# Docker
+.dockerignore
+# Dockerfile
+
+# Logs and temp files
+*.log
+*.temp
+*.tmp

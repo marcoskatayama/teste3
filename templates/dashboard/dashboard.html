@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+<!-- Gráfico de Total de Pedidos por Mês e Empresa -->
+{% if pedidos_por_mes_data %}
+<canvas id="pedidosPorMesChart"></canvas>
+<script>
+var ctx = document.getElementById('pedidosPorMesChart').getContext('2d');
+var pedidosPorMesChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ pedidos_por_mes_labels|tojson }},
+        datasets: [{
+            label: 'Total de Pedidos',
+            data: {{ pedidos_por_mes_data|tojson }},
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+{% else %}
+<p>Não há pedidos disponíveis para este mês.</p>
+{% endif %}
+
+<!-- Gráfico de Produtos Mais Vendidos -->
+{% if produtos_mais_vendidos_data %}
+<canvas id="produtosMaisVendidosChart"></canvas>
+<script>
+var ctx = document.getElementById('produtosMaisVendidosChart').getContext('2d');
+var produtosMaisVendidosChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: {{ produtos_mais_vendidos_labels|tojson }},
+        datasets: [{
+            label: 'Produtos Mais Vendidos',
+            data: {{ produtos_mais_vendidos_data|tojson }},
+            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+            borderColor: 'rgba(153, 102, 255, 1)',
+            borderWidth: 1
+        }]
+    }
+});
+</script>
+{% else %}
+<p>Não há dados sobre produtos vendidos disponíveis.</p>
+{% endif %}
+{% endblock %}
